@@ -109,7 +109,7 @@ Deploy the model using Docker or cloud services
 
 --- 
 
-##👨‍💻 Author
+###  Author
 
 Rayen Bouazizi
  Data Science Engineering Student
@@ -117,7 +117,7 @@ Rayen Bouazizi
 
 GitHub: https://github.com/rayen-feb
 
-## License
+### License
 
 This project is intended for educational purposes.
 A license can be added if required

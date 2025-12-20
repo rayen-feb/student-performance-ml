@@ -95,7 +95,7 @@ Analysis of prediction accuracy and errors
 
  --- 
  
-###Future Improvements
+### Future Improvements
 
 Add advanced models (XGBoost, Neural Networks)
 
@@ -106,6 +106,8 @@ Create a web application (Flask or Streamlit)
 Track experiments using MLflow
 
 Deploy the model using Docker or cloud services
+
+--- 
 
 ##👨‍💻 Author
 

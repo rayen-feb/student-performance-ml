@@ -1,17 +1,9 @@
 from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.neural_network import MLPRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from data.preprocessing import preprocess_data
 from data.load_data import load_data
 import numpy as np
-
-# Optional: XGBoost
-try:
-    from xgboost import XGBRegressor
-    xgboost_available = True
-except ImportError:
-    xgboost_available = False
 
 def train_regression():
     df = load_data()
@@ -19,24 +11,19 @@ def train_regression():
 
     models = {
         "Linear Regression": LinearRegression(),
-        "Random Forest": RandomForestRegressor(random_state=42),
-        "Gradient Boosting": GradientBoostingRegressor(random_state=42),
-        "MLP Regressor": MLPRegressor(hidden_layer_sizes=(64, 32), max_iter=1000, random_state=42)
+        "Random Forest": RandomForestRegressor(random_state=42)
     }
-
-    if xgboost_available:
-        models["XGBoost Regressor"] = XGBRegressor(random_state=42, eval_metric='rmse')
 
     for name, model in models.items():
         model.fit(X_train, y_train)
         preds = model.predict(X_test)
 
-        print(f"\n {name} Results")
+        print(f"\n {name} Regression Results")
         print("MAE:", round(mean_absolute_error(y_test, preds), 2))
         print("RMSE:", round(np.sqrt(mean_squared_error(y_test, preds)), 2))
         print("R2 Score:", round(r2_score(y_test, preds), 2))
 
-        # Feature importance (if available)
+        # Optional: feature importance for tree-based model
         if hasattr(model, "feature_importances_"):
             print("Feature Importances:", model.feature_importances_)
 

@@ -76,7 +76,7 @@ pip install -r requirements.txt
 python src/main.py
 ````
 
-###5. Model Evaluation
+### 5. Model Evaluation
 The models are evaluated using appropriate metrics such as:
 Accuracy / RMSE / R²
 Confusion Matrix (for classification)

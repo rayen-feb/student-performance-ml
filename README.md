@@ -1,4 +1,4 @@
-# 🎓 Student Performance Prediction using Machine Learning
+#  Student Performance Prediction using Machine Learning
 
 ## 📌 Project Overview
 This project aims to predict **student academic performance** using machine learning techniques.  

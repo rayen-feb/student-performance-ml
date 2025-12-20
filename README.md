@@ -66,7 +66,7 @@ source venv/bin/activate   # Linux / WSL
 venv\Scripts\activate      # Windows
 ````
 
-###3. Install dependencies
+### 3. Install dependencies
 ````
 pip install -r requirements.txt
 ````
@@ -95,7 +95,7 @@ Analysis of prediction accuracy and errors
 
  --- 
  
-### Future Improvements
+## Future Improvements
 
 Add advanced models (XGBoost, Neural Networks)
 
@@ -109,7 +109,7 @@ Deploy the model using Docker or cloud services
 
 --- 
 
-###  Author
+##  Author
 
 Rayen Bouazizi
  Data Science Engineering Student

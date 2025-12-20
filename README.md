@@ -117,7 +117,4 @@ Rayen Bouazizi
 
 GitHub: https://github.com/rayen-feb
 
-### License
 
-This project is intended for educational purposes.
-A license can be added if required

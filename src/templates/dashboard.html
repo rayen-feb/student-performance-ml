@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Analyser - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="hero">
+        <div class="brand">
+            <div class="logo">NA</div>
+            <div>
+                <h1>Note Analyser Dashboard</h1>
+                <p>Visualize evaluation metrics, sentiment signals, and summary quality across the note corpus.</p>
+            </div>
+        </div>
+        <nav class="top-nav">
+            <a href="/">Home</a>
+            <a href="/analytics">Analytics</a>
+            <a href="/predictor">Predictor</a>
+            <a href="/support">Support</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="feature-card">
+            <h2>Strategic Overview</h2>
+            <p>Monitor performance signals with AI-driven clarity and proactive recommendations.</p>
+            <div class="metric">
+                <h3>Cohort Coverage</h3>
+                <p>{{ len_df }} active student records</p>
+            </div>
+            <div class="metric">
+                <h3>Model Precision</h3>
+                <p>{{ "%.2f"|format(best_r2) }} top regression score</p>
+            </div>
+        </section>
+        <section class="feature-card">
+            <h2>Model Benchmark Analysis</h2>
+            {{ benchmark_html|safe }}
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

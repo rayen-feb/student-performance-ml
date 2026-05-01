@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note Analyser - Analytics</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header class="hero">
@@ -16,28 +16,25 @@
             </div>
         </div>
         <nav class="top-nav">
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="predictor.html">Predictor</a>
-            <a href="support.html">Support</a>
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/predictor">Predictor</a>
+            <a href="/support">Support</a>
         </nav>
     </header>
 
     <main class="container">
         <section class="feature-card">
-            <h2>Topic Clusters</h2>
-            <p>Visualize clusters of topics from the notes.</p>
+            <h2>Distribution Analysis</h2>
+            {{ dist_html|safe }}
+            {{ scatter_html|safe }}
         </section>
         <section class="feature-card">
-            <h2>Keyword Impact</h2>
-            <p>Analyze the impact of keywords on note quality.</p>
-        </section>
-        <section class="feature-card">
-            <h2>Correlation Trends</h2>
-            <p>Explore correlations between note elements and performance.</p>
+            <h2>Feature Correlation Matrix</h2>
+            {{ corr_html|safe }}
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

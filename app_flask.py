@@ -6,7 +6,8 @@ import plotly.io as pio
 from data.load_data import load_data
 from src.data.models.regression import train_regression
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='src/templates')
+
 
 # Load assets once
 try:

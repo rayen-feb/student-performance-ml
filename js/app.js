@@ -251,9 +251,28 @@ function initDashboard() {
         confidenceEl.dataset.value = confidence;
         confidenceEl.textContent = '0%';
     }
+}
+
+// ============================================
+// CANVAS HELPERS
+// ============================================
+function setupCanvas(canvas) {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
     
-    // Render charts
-    renderBenchmarkChart();
+    // Set actual canvas size to match display size * DPR
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    
+    return {
+        ctx,
+        width: rect.width,
+        height: rect.height,
+        dpr
+    };
 }
 
 // ============================================
@@ -263,34 +282,26 @@ function renderBenchmarkChart() {
     const canvas = document.getElementById('benchmarkChart');
     if (!canvas || !metricsData) return;
     
-    const ctx = canvas.getContext('2d');
+    const { ctx, width, height } = setupCanvas(canvas);
     const results = metricsData.results;
     const models = Object.keys(results);
     const r2Values = models.map(m => results[m].R2);
     const maxR2 = Math.max(...r2Values);
     
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
+    const padding = { top: 40, right: 20, bottom: 50, left: 20 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
     
-    const chartWidth = rect.width;
-    const chartHeight = rect.height;
     const barWidth = (chartWidth / models.length) * 0.6;
     const barSpacing = (chartWidth / models.length) * 0.4;
     
-    // Clear canvas
-    ctx.clearRect(0, 0, chartWidth, chartHeight);
-    
     // Draw bars with animation
     models.forEach((model, i) => {
-        const targetHeight = (results[model].R2 / maxR2) * (chartHeight - 80);
-        const x = i * (barWidth + barSpacing) + barSpacing / 2;
-        const y = chartHeight - 50;
+        const targetHeight = (results[model].R2 / maxR2) * chartHeight;
+        const x = padding.left + i * (barWidth + barSpacing) + barSpacing / 2;
+        const y = padding.top + chartHeight;
         
         // Animate bar height
-        let currentHeight = 0;
         const startTime = performance.now();
         const duration = 1000;
         const delay = i * 150;
@@ -304,10 +315,10 @@ function renderBenchmarkChart() {
             
             const progress = Math.min(elapsed / duration, 1);
             const easeOut = 1 - Math.pow(1 - progress, 3);
-            currentHeight = targetHeight * easeOut;
+            const currentHeight = targetHeight * easeOut;
             
             // Clear only this bar area
-            ctx.clearRect(x - 2, 0, barWidth + 4, chartHeight - 50);
+            ctx.clearRect(x - 2, padding.top - 10, barWidth + 4, chartHeight + 20);
             
             // Bar gradient
             const gradient = ctx.createLinearGradient(x, y - currentHeight, x, y);
@@ -318,13 +329,14 @@ function renderBenchmarkChart() {
             ctx.fillStyle = gradient;
             ctx.beginPath();
             const radius = 8;
-            ctx.moveTo(x + radius, y - currentHeight);
-            ctx.lineTo(x + barWidth - radius, y - currentHeight);
-            ctx.quadraticCurveTo(x + barWidth, y - currentHeight, x + barWidth, y - currentHeight + radius);
+            const barY = y - currentHeight;
+            ctx.moveTo(x + radius, barY);
+            ctx.lineTo(x + barWidth - radius, barY);
+            ctx.quadraticCurveTo(x + barWidth, barY, x + barWidth, barY + radius);
             ctx.lineTo(x + barWidth, y);
             ctx.lineTo(x, y);
-            ctx.lineTo(x, y - currentHeight + radius);
-            ctx.quadraticCurveTo(x, y - currentHeight, x + radius, y - currentHeight);
+            ctx.lineTo(x, barY + radius);
+            ctx.quadraticCurveTo(x, barY, x + radius, barY);
             ctx.closePath();
             ctx.fill();
             
@@ -335,7 +347,7 @@ function renderBenchmarkChart() {
                 ctx.textAlign = 'center';
                 const valueOpacity = (progress - 0.5) * 2;
                 ctx.globalAlpha = valueOpacity;
-                ctx.fillText(results[model].R2.toFixed(2), x + barWidth / 2, y - currentHeight - 10);
+                ctx.fillText(results[model].R2.toFixed(2), x + barWidth / 2, barY - 10);
                 ctx.globalAlpha = 1;
             }
             
@@ -351,7 +363,7 @@ function renderBenchmarkChart() {
         ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
         const displayName = model.length > 14 ? model.substring(0, 12) + '..' : model;
-        ctx.fillText(displayName, x + barWidth / 2, chartHeight - 20);
+        ctx.fillText(displayName, x + barWidth / 2, y + 20);
     });
 }
 
@@ -359,30 +371,23 @@ function renderDistributionChart() {
     const canvas = document.getElementById('distributionChart');
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-    
-    const chartWidth = rect.width;
-    const chartHeight = rect.height;
+    const { ctx, width, height } = setupCanvas(canvas);
     
     const grades = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     const counts = [1,2,3,5,8,12,15,20,35,40,85,95,120,110,95,85,70,45,30,15,8];
     const total = counts.reduce((a, b) => a + b, 0);
     
-    const barWidth = (chartWidth / grades.length) - 2;
+    const padding = { top: 20, right: 20, bottom: 40, left: 20 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
     
-    // Clear canvas
-    ctx.clearRect(0, 0, chartWidth, chartHeight);
+    const barWidth = (chartWidth / grades.length) - 2;
     
     // Draw bars with animation
     grades.forEach((grade, i) => {
-        const targetHeight = (counts[i] / total) * (chartHeight - 50);
-        const x = i * (barWidth + 2) + 2;
-        const y = chartHeight - 35;
+        const targetHeight = (counts[i] / total) * chartHeight;
+        const x = padding.left + i * (barWidth + 2) + 2;
+        const y = padding.top + chartHeight;
         
         let color;
         if (grade >= 15) color = '#34C759';
@@ -390,7 +395,6 @@ function renderDistributionChart() {
         else color = '#FF3B30';
         
         // Animate
-        let currentHeight = 0;
         const startTime = performance.now();
         const duration = 800;
         const delay = i * 30;
@@ -404,9 +408,9 @@ function renderDistributionChart() {
             
             const progress = Math.min(elapsed / duration, 1);
             const easeOut = 1 - Math.pow(1 - progress, 3);
-            currentHeight = targetHeight * easeOut;
+            const currentHeight = targetHeight * easeOut;
             
-            ctx.clearRect(x - 1, 0, barWidth + 2, chartHeight - 35);
+            ctx.clearRect(x - 1, padding.top, barWidth + 2, chartHeight);
             ctx.fillStyle = color;
             ctx.beginPath();
             ctx.roundRect(x, y - currentHeight, barWidth, currentHeight, 4);
@@ -425,8 +429,8 @@ function renderDistributionChart() {
     ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
     for (let i = 0; i <= 20; i += 5) {
-        const x = (i / 20) * (chartWidth - 20) + 10;
-        ctx.fillText(i.toString(), x, chartHeight - 8);
+        const x = padding.left + (i / 20) * chartWidth;
+        ctx.fillText(i.toString(), x, height - 10);
     }
 }
 
@@ -434,15 +438,7 @@ function renderCorrelationChart() {
     const canvas = document.getElementById('correlationChart');
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-    
-    const chartWidth = rect.width;
-    const chartHeight = rect.height;
+    const { ctx, width, height } = setupCanvas(canvas);
     
     const correlations = {
         'G1-G2': 0.85,
@@ -456,33 +452,32 @@ function renderCorrelationChart() {
     };
     
     const keys = Object.keys(correlations);
-    const itemHeight = (chartHeight - 40) / keys.length;
+    const padding = { top: 20, right: 60, bottom: 20, left: 80 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+    const itemHeight = chartHeight / keys.length;
     const maxCorr = Math.max(...Object.values(correlations).map(Math.abs));
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, chartWidth, chartHeight);
     
     // Draw bars with animation
     keys.forEach((key, i) => {
         const corr = correlations[key];
-        const targetWidth = (Math.abs(corr) / maxCorr) * (chartWidth - 150);
-        const x = 100;
-        const y = i * itemHeight + 20;
+        const targetWidth = (Math.abs(corr) / maxCorr) * chartWidth;
+        const x = padding.left;
+        const y = padding.top + i * itemHeight + (itemHeight - 16) / 2;
         
         // Label
         ctx.fillStyle = '#1D1D1F';
         ctx.font = '600 12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(key, 10, y + 14);
+        ctx.fillText(key, 10, y + 12);
         
         // Bar background
         ctx.fillStyle = '#F2F2F7';
         ctx.beginPath();
-        ctx.roundRect(x, y, chartWidth - 110, 16, 8);
+        ctx.roundRect(x, y, chartWidth, 16, 8);
         ctx.fill();
         
         // Animated bar
-        let currentWidth = 0;
         const startTime = performance.now();
         const duration = 1000;
         const delay = i * 100;
@@ -496,15 +491,15 @@ function renderCorrelationChart() {
             
             const progress = Math.min(elapsed / duration, 1);
             const easeOut = 1 - Math.pow(1 - progress, 3);
-            currentWidth = targetWidth * easeOut;
+            const currentWidth = targetWidth * easeOut;
             
             // Clear bar area
-            ctx.clearRect(x, y, chartWidth - 110, 16);
+            ctx.clearRect(x, y - 2, chartWidth, 20);
             
             // Redraw background
             ctx.fillStyle = '#F2F2F7';
             ctx.beginPath();
-            ctx.roundRect(x, y, chartWidth - 110, 16, 8);
+            ctx.roundRect(x, y, chartWidth, 16, 8);
             ctx.fill();
             
             // Draw bar
@@ -521,7 +516,7 @@ function renderCorrelationChart() {
                 ctx.textAlign = 'right';
                 const valueOpacity = (progress - 0.7) * 3.33;
                 ctx.globalAlpha = Math.min(valueOpacity, 1);
-                ctx.fillText(corr.toFixed(2), chartWidth - 10, y + 13);
+                ctx.fillText(corr.toFixed(2), width - 10, y + 12);
                 ctx.globalAlpha = 1;
             }
             
@@ -575,7 +570,24 @@ function showPredictionResult(score) {
     const performance = getPerformanceLevel(score);
     const progressWidth = (score / 20) * 100;
     
-    resultContainer.innerHTML = `\n        <div class="prediction-result" style="background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);">\n            <div class="prediction-score">${score.toFixed(2)}</div>\n            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem;">Predicted Final Grade (out of 20)</p>\n            <div class="progress-container">\n                <div class="progress-label">\n                    <span>Performance</span>\n                    <span>${score.toFixed(1)}/20</span>\n                </div>\n                <div class="progress-track">\n                    <div class="progress-fill" style="width: 0%;" data-width="${progressWidth}"></div>\n                </div>\n            </div>\n            <p style="margin-top: 1.5rem;">\n                <span class="badge ${performance.badge}">${performance.level}</span>\n            </p>\n        </div>\n    `;
+    resultContainer.innerHTML = `
+        <div class="prediction-result" style="background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);">
+            <div class="prediction-score">${score.toFixed(2)}</div>
+            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem;">Predicted Final Grade (out of 20)</p>
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Performance</span>
+                    <span>${score.toFixed(1)}/20</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: 0%;" data-width="${progressWidth}"></div>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem;">
+                <span class="badge ${performance.badge}">${performance.level}</span>
+            </p>
+        </div>
+    `;
     
     // Animate progress bar
     setTimeout(() => {
@@ -629,17 +641,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (loaded) {
         initDashboard();
         
-        // Render charts if canvases exist
-        if (document.getElementById('benchmarkChart')) {
-            // Delay slightly to ensure layout is complete
-            setTimeout(renderBenchmarkChart, 100);
-        }
-        if (document.getElementById('distributionChart')) {
-            setTimeout(renderDistributionChart, 100);
-        }
-        if (document.getElementById('correlationChart')) {
-            setTimeout(renderCorrelationChart, 100);
-        }
+        // Render charts if canvases exist - delay to ensure layout
+        setTimeout(() => {
+            if (document.getElementById('benchmarkChart')) {
+                renderBenchmarkChart();
+            }
+            if (document.getElementById('distributionChart')) {
+                renderDistributionChart();
+            }
+            if (document.getElementById('correlationChart')) {
+                renderCorrelationChart();
+            }
+        }, 200);
     }
     
     // Setup prediction form

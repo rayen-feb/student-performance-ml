@@ -1,0 +1,27 @@
+{
+  "results": {
+    "Linear Regression": {
+      "MAE": 1.82,
+      "RMSE": 2.35,
+      "R2": 0.80
+    },
+    "Random Forest": {
+      "MAE": 1.65,
+      "RMSE": 2.18,
+      "R2": 0.83
+    },
+    "Gradient Boosting": {
+      "MAE": 1.58,
+      "RMSE": 2.05,
+      "R2": 0.85
+    },
+    "MLP Regressor": {
+      "MAE": 1.72,
+      "RMSE": 2.28,
+      "R2": 0.81
+    }
+  },
+  "best_model": "Gradient Boosting",
+  "best_r2": 0.85,
+  "dataset_size": 1044
+}

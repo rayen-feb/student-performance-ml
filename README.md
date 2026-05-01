@@ -301,6 +301,72 @@ python src/data/models/regression.py
 
 ---
 
+## 🌐 GitHub Pages Deployment
+
+This project includes a **static site version** that can be deployed directly to GitHub Pages.
+
+### Static Site Features
+- ✅ Pure static HTML/CSS/JavaScript (no Python backend required)
+- ✅ Interactive dashboard with model metrics
+- ✅ Analytics explorer with visualizations
+- ✅ AI Predictor with real-time grade predictions
+- ✅ Support and documentation pages
+- ✅ Works directly in the browser
+
+### Deployment Steps
+
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Add static site for GitHub Pages"
+   git push origin main
+   ```
+
+2. **Enable GitHub Pages**
+   - Go to Repository Settings → Pages
+   - Select "Deploy from a branch"
+   - Choose "main" as the branch
+   - Select "/ (root)" as the folder
+   - Click Save
+
+3. **Access Your Site**
+   - Your site will be available at: `https://yourusername.github.io/student-performance-ml/`
+
+### Static Site Files
+```
+student-performance-ml/
+├── index.html          # Main dashboard
+├── analytics.html    # Analytics page
+├── predictor.html   # Prediction form
+├── support.html    # Support page
+├── 404.html       # Custom 404 page
+├── .nojekyll      # GitHub Pages config
+├── css/
+│   └── styles.css # Main styles
+├── js/
+│   └── app.js     # ML prediction engine
+└── json/
+    ├── model.json      # Model coefficients
+    ├── encoders.json  # Label encoders
+    ├── scaler.json   # Feature scaler
+    └── metrics.json # Model metrics
+```
+
+### Local Development
+To test locally, simply open `index.html` in a web browser:
+```bash
+# Windows
+start index.html
+
+# macOS
+open index.html
+
+# Linux
+xdg-open index.html
+```
+
+---
+
 ## 📈 Results & Insights
 
 ### Key Findings

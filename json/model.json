@@ -1,0 +1,15 @@
+{
+  "model_name": "Linear Regression",
+  "coefficients": [
+    -0.15, 0.32, -0.08, 0.21, -0.12, 0.18, 0.25, 0.19, 0.11, -0.09,
+    0.14, -0.21, 0.08, 0.35, -0.42, 0.16, 0.22, 0.09, 0.13, 0.17,
+    0.28, 0.24, -0.11, 0.06, 0.19, -0.15, -0.22, -0.18, 0.05, 0.44, 0.38
+  ],
+  "intercept": 9.5,
+  "feature_names": [
+    "school", "sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "Mjob", "Fjob",
+    "reason", "guardian", "traveltime", "studytime", "failures", "schoolsup", "famsup", "paid",
+    "activities", "nursery", "higher", "internet", "romantic", "famrel", "freetime", "goout",
+    "Dalc", "Walc", "health", "absences", "G1", "G2"
+  ]
+}

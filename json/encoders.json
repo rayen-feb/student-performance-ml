@@ -1,0 +1,70 @@
+{
+  "school": {
+    "classes": ["GP", "MS"],
+    "classes_transformed": [0, 1]
+  },
+  "sex": {
+    "classes": ["F", "M"],
+    "classes_transformed": [0, 1]
+  },
+  "address": {
+    "classes": ["R", "U"],
+    "classes_transformed": [0, 1]
+  },
+  "famsize": {
+    "classes": ["GT3", "LE3"],
+    "classes_transformed": [0, 1]
+  },
+  "Pstatus": {
+    "classes": ["A", "T"],
+    "classes_transformed": [0, 1]
+  },
+  "Mjob": {
+    "classes": ["at_home", "health", "other", "services", "teacher"],
+    "classes_transformed": [0, 1, 2, 3, 4]
+  },
+  "Fjob": {
+    "classes": ["at_home", "health", "other", "services", "teacher"],
+    "classes_transformed": [0, 1, 2, 3, 4]
+  },
+  "reason": {
+    "classes": ["course", "home", "other", "reputation"],
+    "classes_transformed": [0, 1, 2, 3]
+  },
+  "guardian": {
+    "classes": ["father", "mother", "other"],
+    "classes_transformed": [0, 1, 2]
+  },
+  "schoolsup": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "famsup": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "paid": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "activities": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "nursery": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "higher": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "internet": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  },
+  "romantic": {
+    "classes": ["no", "yes"],
+    "classes_transformed": [0, 1]
+  }
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance AI - Predictor</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="brand">
+            <div class="logo">SP</div>
+            <div>
+                <h1>Student Performance AI</h1>
+                <p>ML-powered grade prediction system</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="analytics.html">Analytics</a>
+            <a href="predictor.html" class="active">Predictor</a>
+            <a href="support.html">Support</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-layout">
+        <!-- Hero -->
+        <section class="hero">
+            <h1>🔮 AI Predictor</h1>
+            <p>Enter student attributes to generate an accurate grade prediction using machine learning.</p>
+        </section>
+
+        <!-- Prediction Form -->
+        <div class="feature-grid">
+            <section class="card">
+                <h2>📝 Student Profile Input</h2>
+                <p>Enter student attributes for performance prediction.</p>
+                
+                <form id="prediction-form" style="margin-top: 1.5rem;">
+                    <!-- Row 1 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="school">School</label>
+                            <select name="school" id="school" required>
+                                <option value="GP">GP - Gabriel Pereira</option>
+                                <option value="MS">MS - Mousinho da Silveira</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">Sex</label>
+                            <select name="sex" id="sex" required>
+                                <option value="F">Female</option>
+                                <option value="M" selected>Male</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="age">Age (15-22)</label>
+                            <input type="number" name="age" id="age" min="15" max="22" value="16" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <select name="address" id="address" required>
+                                <option value="U">Urban</option>
+                                <option value="R">Rural</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="famsize">Family Size</label>
+                            <select name="famsize" id="famsize" required>
+                                <option value="GT3">GT3 - More than 3</option>
+                                <option value="LE3">LE3 - Less than or equal 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Pstatus">Parent Status</label>
+                            <select name="Pstatus" id="Pstatus" required>
+                                <option value="T">Together</option>
+                                <option value="A">Apart</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 4 - Parent Education -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="Medu">Mother's Education</label>
+                            <select name="Medu" id="Medu" required>
+                                <option value="0">0 - None</option>
+                                <option value="1">1 - Primary</option>
+                                <option value="2">2 - 5-9 years</option>
+                                <option value="3" selected>3 - Secondary</option>
+                                <option value="4">4 - Higher</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Fedu">Father's Education</label>
+                            <select name="Fedu" id="Fedu" required>
+                                <option value="0">0 - None</option>
+                                <option value="1">1 - Primary</option>
+                                <option value="2" selected>2 - 5-9 years</option>
+                                <option value="3">3 - Secondary</option>
+                                <option value="4">4 - Higher</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 5 - Parent Job -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="Mjob">Mother's Job</label>
+                            <select name="Mjob" id="Mjob" required>
+                                <option value="teacher">Teacher</option>
+                                <option value="health">Health</option>
+                                <option value="services">Services</option>
+                                <option value="at_home">At Home</option>
+                                <option value="other" selected>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Fjob">Father's Job</label>
+                            <select name="Fjob" id="Fjob" required>
+                                <option value="teacher">Teacher</option>
+                                <option value="health">Health</option>
+                                <option value="services">Services</option>
+                                <option value="at_home">At Home</option>
+                                <option value="other" selected>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 6 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="reason">Reason for School</label>
+                            <select name="reason" id="reason" required>
+                                <option value="course" selected>Course</option>
+                                <option value="home">Home</option>
+                                <option value="reputation">Reputation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guardian">Guardian</label>
+                            <select name="guardian" id="guardian" required>
+                                <option value="mother" selected>Mother</option>
+                                <option value="father">Father</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 7 - Time factors -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="traveltime">Travel Time</label>
+                            <select name="traveltime" id="traveltime" required>
+                                <option value="1" selected>1 - <15 min</option>
+                                <option value="2">2 - 15-30 min</option>
+                                <option value="3">3 - 30 min-1 hr</option>
+                                <option value="4">4 - >1 hr</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studytime">Study Time</label>
+                            <select name="studytime" id="studytime" required>
+                                <option value="1">1 - <2 hrs</option>
+                                <option value="2" selected>2 - 2-5 hrs</option>
+                                <option value="3">3 - 5-10 hrs</option>
+                                <option value="4">4 - >10 hrs</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 8 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="failures">Past Failures (0-4)</label>
+                            <input type="number" name="failures" id="failures" min="0" max="4" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="absences">School Absences (0-93)</label>
+                            <input type="number" name="absences" id="absences" min="0" max="93" value="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 9 - Support -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="schoolsup">School Support</label>
+                            <select name="schoolsup" id="schoolsup" required>
+                                <option value="no" selected>No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="famsup">Family Support</label>
+                            <select name="famsup" id="famsup" required>
+                                <option value="no">No</option>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paid">Extra Paid Classes</label>
+                            <select name="paid" id="paid" required>
+                                <option value="no" selected>No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 10 - Activities -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="activities">Activities</label>
+                            <select name="activities" id="activities" required>
+                                <option value="no">No</option>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nursery">Nursery School</label>
+                            <select name="nursery" id="nursery" required>
+                                <option value="no">No</option>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="higher">Wants Higher Ed</label>
+                            <select name="higher" id="higher" required>
+                                <option value="no">No</option>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 11 - Lifestyle -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="internet">Internet</label>
+                            <select name="internet" id="internet" required>
+                                <option value="no">No</option>
+                                <option value="yes" selected>Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="romantic">Romantic</label>
+                            <select name="romantic" id="romantic" required>
+                                <option value="no" selected>No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="health">Health (1-5)</label>
+                            <input type="number" name="health" id="health" min="1" max="5" value="3" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 12 - Grades -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="famrel">Family Relationship (1-5)</label>
+                            <input type="number" name="famrel" id="famrel" min="1" max="5" value="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="freetime">Free Time (1-5)</label>
+                            <input type="number" name="freetime" id="freetime" min="1" max="5" value="3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="goout">Going Out (1-5)</label>
+                            <input type="number" name="goout" id="goout" min="1" max="5" value="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 13 - Alcohol -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="Dalc"> workday Alcohol (1-5)</label>
+                            <input type="number" name="Dalc" id="Dalc" min="1" max="5" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Walc">Weekend Alcohol (1-5)</label>
+                            <input type="number" name="Walc" id="Walc" min="1" max="5" value="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 14 - Previous Grades -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="G1">First Period Grade (0-20)</label>
+                            <input type="number" name="G1" id="G1" min="0" max="20" value="12" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="G2">Second Period Grade (0-20)</label>
+                            <input type="number" name="G2" id="G2" min="0" max="20" value="12" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="margin-top: 1rem; width: 100%;">
+                        🔮 Generate Prediction
+                    </button>
+                </form>
+            </section>
+
+            <!-- Prediction Result -->
+            <section class="card" id="prediction-result-container">
+                <h2>📊 Prediction Result</h2>
+                <p>Your prediction will appear here after submitting the form.</p>
+                <div id="prediction-result"></div>
+            </section>
+        </div>
+
+        <!-- Info Section -->
+        <section class="card" style="margin-top: 2rem;">
+            <h2>ℹ️ About the Prediction</h2>
+            <p>This prediction model uses <strong>Linear Regression</strong> trained on the UCI Student Performance dataset.</p>
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
+                <li><strong>Model R² Score:</strong> 0.80 (explains 80% of variance)</li>
+                <li><strong>Dataset Size:</strong> 1,044 student records</li>
+                <li><strong>Features Used:</strong> 31 student attributes</li>
+            </ul>
+            <p style="margin-top: 1rem;"><em>Note: The prediction is an estimate based on historical data. Actual results may vary based on individual circumstances.</em></p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🎓 Student Performance ML | Built with ❤️ using Machine Learning</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>

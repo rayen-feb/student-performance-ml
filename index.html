@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Analyser</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="brand">
+            <div class="logo">NA</div>
+            <div>
+                <h1>Note Analyser</h1>
+                <p>Intelligent note insights for more meaningful student evaluation.</p>
+            </div>
+        </div>
+        <nav class="top-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="analytics.html">Analytics</a>
+            <a href="predictor.html">Predictor</a>
+            <a href="support.html">Support</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="feature-card" id="dashboard" data-target="#dashboard" role="button" tabindex="0">
+            <h2>Note Insights Dashboard</h2>
+            <p>Visualize evaluation metrics, sentiment signals, and summary quality across the note corpus.</p>
+        </section>
+        <section class="feature-card" id="analytics" data-target="#analytics" role="button" tabindex="0">
+            <h2>Content Analytics</h2>
+            <p>Inspect topic clusters, keyword impact, and note correlation trends with interactive charts.</p>
+        </section>
+        <section class="feature-card" id="predictor" data-target="#predictor" role="button" tabindex="0">
+            <h2>Note Score Predictor</h2>
+            <p>Estimate note relevance, readability, and student performance impact using AI-driven models.</p>
+        </section>
+
+        <div class="action-panel">
+            <button id="startAnalysis" type="button">Start Analysis</button>
+        </div>
+    </main>
+
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">×</button>
+            <h3>Support Guide</h3>
+            <p>Optimize your student performance predictions with these best practices:</p>
+            <ul>
+                <li>Keep the dataset current and validate attendance signals.</li>
+                <li>Review model benchmarks weekly for drift.</li>
+                <li>Use the predictor to assess at-risk student scenarios.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

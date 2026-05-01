@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Analyser - Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="hero">
+        <div class="brand">
+            <div class="logo">NA</div>
+            <div>
+                <h1>Note Analyser Analytics</h1>
+                <p>Inspect topic clusters, keyword impact, and note correlation trends with interactive charts.</p>
+            </div>
+        </div>
+        <nav class="top-nav">
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/predictor">Predictor</a>
+            <a href="/support">Support</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="feature-card">
+            <h2>Distribution Analysis</h2>
+            {{ dist_html|safe }}
+            {{ scatter_html|safe }}
+        </section>
+        <section class="feature-card">
+            <h2>Feature Correlation Matrix</h2>
+            {{ corr_html|safe }}
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

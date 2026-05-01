@@ -10,7 +10,25 @@ def load_data():
     merges them, and returns a single DataFrame.
     """
     current_dir = os.path.dirname(__file__)
-    data_path = os.path.join(current_dir, 'student+performance', 'student')
+    candidate_paths = [
+        os.path.join(current_dir, 'student+performance', 'student'),
+        os.path.join(os.path.dirname(current_dir), 'student+performance', 'student'),
+        current_dir,
+    ]
+
+    data_path = None
+    for candidate in candidate_paths:
+        mat_path = os.path.join(candidate, 'student-mat.csv')
+        por_path = os.path.join(candidate, 'student-por.csv')
+        if os.path.exists(mat_path) and os.path.exists(por_path):
+            data_path = candidate
+            break
+
+    if data_path is None:
+        tried = '\n'.join(candidate_paths)
+        raise FileNotFoundError(
+            f"Unable to locate student-mat.csv and student-por.csv. Tried the following paths:\n{tried}"
+        )
 
     try:
         df_mat = pd.read_csv(os.path.join(data_path, 'student-mat.csv'), sep=';')

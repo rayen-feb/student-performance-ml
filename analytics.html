@@ -3,134 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analytics Explorer - Visualize student performance trends and correlations">
     <title>Student Performance AI - Analytics</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230071E3'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold'>SP</text></svg>">
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <div class="brand">
-            <div class="logo">SP</div>
-            <div>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-brand" aria-label="Student Performance AI Home">
+            <div class="nav-logo">SP</div>
+            <div class="nav-brand-text">
                 <h1>Student Performance AI</h1>
-                <p>ML-powered grade prediction system</p>
+                <p>ML-powered grade prediction</p>
             </div>
-        </div>
+        </a>
         <div class="nav-links">
             <a href="index.html">Dashboard</a>
-            <a href="analytics.html" class="active">Analytics</a>
+            <a href="analytics.html" class="active" aria-current="page">Analytics</a>
             <a href="predictor.html">Predictor</a>
             <a href="support.html">Support</a>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <h1>Analytics Explorer</h1>
+            <p>Visualize student performance trends, correlations, and cohort signals in one place.</p>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="main-layout">
-        <!-- Hero -->
-        <section class="hero">
-            <h1>📊 Analytics Explorer</h1>
-            <p>Visualize student performance trends, correlations, and cohort signals in one place.</p>
-        </section>
-
         <!-- Distribution Analysis -->
-        <section class="card">
-            <h2>📈 Final Grade Distribution</h2>
-            <p>Distribution of final grades (G3) across the student cohort (n=1,044).</p>
-            <div class="chart-container">
-                <canvas id="distributionChart" width="700" height="300"></canvas>
-            </div>
-            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                <div class="badge badge-success">Excellent (15-20)</div>
-                <div class="badge badge-warning">Pass (10-14)</div>
-                <div class="badge badge-danger">High Risk (0-9)</div>
+        <section class="section" aria-labelledby="distribution-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="distribution-heading">Final Grade Distribution</h2>
+                <p>Distribution of final grades across the student cohort.</p>
+                <div class="chart-container" style="margin-top: 1.5rem;">
+                    <canvas id="distributionChart" width="800" height="350" role="img" aria-label="Histogram showing distribution of final grades from 0 to 20"></canvas>
+                </div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <span class="badge badge-success">Excellent (15-20)</span>
+                    <span class="badge badge-warning">Pass (10-14)</span>
+                    <span class="badge badge-danger">High Risk (0-9)</span>
+                </div>
             </div>
         </section>
 
         <!-- Correlation Matrix -->
-        <section class="card">
-            <h2>🔗 Feature Correlations</h2>
-            <p>Key correlations with final grade (G3) that influence predictions.</p>
-            <div class="chart-container">
-                <canvas id="correlationChart" width="600" height="250"></canvas>
+        <section class="section section-alt" aria-labelledby="correlation-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="correlation-heading">Feature Correlations</h2>
+                <p>Key correlations with final grade that influence predictions.</p>
+                <div class="chart-container" style="margin-top: 1.5rem;">
+                    <canvas id="correlationChart" width="700" height="300" role="img" aria-label="Horizontal bar chart showing correlation coefficients between features and final grade"></canvas>
+                </div>
             </div>
         </section>
 
         <!-- Feature Insights -->
-        <section class="feature-grid">
-            <div class="card">
-                <h2>📚 Study Time Impact</h2>
-                <p>Students with higher study time (3-4) show significantly better grades.</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li>Level 1 (<2 hrs): Average ~8.5 grades</li>
-                    <li>Level 2 (2-5 hrs): Average ~10.5 grades</li>
-                    <li>Level 3 (5-10 hrs): Average ~12.5 grades</li>
-                    <li>Level 4 (>10 hrs): Average ~14.5 grades</li>
-                </ul>
+        <section class="section" aria-labelledby="insights-heading">
+            <div class="section-header animate-on-scroll">
+                <h2 id="insights-heading">Feature Insights</h2>
+                <p>Deep dive into the factors that most significantly impact student performance.</p>
             </div>
-            <div class="card">
-                <h2>⚠️ Risk Factors</h2>
-                <p>Negative indicators that correlate with lower performance.</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li>Previous failures: -0.35 correlation</li>
-                    <li>School absences: -0.18 correlation</li>
-                    <li>Alcohol consumption: -0.12 correlation</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h2>👨‍👩‍👧 Parental Influence</h2>
-                <p>Parental education level has positive impact on student outcomes.</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li>Mother's education: +0.22 correlation</li>
-                    <li>Father's education: +0.18 correlation</li>
-                    <li>Family support: +0.15 correlation</li>
-                </ul>
+            <div class="feature-grid">
+                <article class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h2>Study Time Impact</h2>
+                    <p>Students with higher study time show significantly better grades.</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Level 1 (<2 hrs): Average ~8.5 grades</li>
+                        <li>Level 2 (2-5 hrs): Average ~10.5 grades</li>
+                        <li>Level 3 (5-10 hrs): Average ~12.5 grades</li>
+                        <li>Level 4 (>10 hrs): Average ~14.5 grades</li>
+                    </ul>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-1">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #FF3B30, #FF6B6B);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <h2>Risk Factors</h2>
+                    <p>Negative indicators that correlate with lower performance.</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Previous failures: -0.35 correlation</li>
+                        <li>School absences: -0.18 correlation</li>
+                        <li>Alcohol consumption: -0.12 correlation</li>
+                    </ul>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-2">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #34C759, #30D158);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h2>Parental Influence</h2>
+                    <p>Parental education level has positive impact on student outcomes.</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Mother's education: +0.22 correlation</li>
+                        <li>Father's education: +0.18 correlation</li>
+                        <li>Family support: +0.15 correlation</li>
+                    </ul>
+                </article>
             </div>
         </section>
 
         <!-- Data Preview -->
-        <section class="card">
-            <h2>📋 Sample Data Preview</h2>
-            <p>First 10 student records from the dataset.</p>
-            <div style="overflow-x: auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>School</th>
-                            <th>Sex</th>
-                            <th>Age</th>
-                            <th>Study Time</th>
-                            <th>Failures</th>
-                            <th>G1</th>
-                            <th>G2</th>
-                            <th>G3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>GP</td><td>M</td><td>18</td><td>2</td><td>0</td><td>12</td><td>12</td><td>11</td></tr>
-                        <tr><td>GP</td><td>F</td><td>17</td><td>3</td><td>0</td><td>14</td><td>14</td><td>13</td></tr>
-                        <tr><td>MS</td><td>F</td><td>15</td><td>2</td><td>0</td><td>11</td><td>11</td><td>10</td></tr>
-                        <tr><td>GP</td><td>M</td><td>16</td><td>1</td><td>0</td><td>10</td><td>9</td><td>9</td></tr>
-                        <tr><td>GP</td><td>F</td><td>16</td><td>3</td><td>0</td><td>15</td><td>15</td><td>14</td></tr>
-                        <tr><td>MS</td><td>M</td><td>16</td><td>2</td><td>1</td><td>8</td><td>9</td><td>8</td></tr>
-                        <tr><td>GP</td><td>F</td><td>17</td><td>4</td><td>0</td><td>16</td><td>17</td><td>16</td></tr>
-                        <tr><td>GP</td><td>M</td><td>18</td><td>1</td><td>0</td><td>13</td><td>12</td><td>11</td></tr>
-                        <tr><td>MS</td><td>F</td><td>15</td><td>3</td><td>0</td><td>14</td><td>14</td><td>13</td></tr>
-                        <tr><td>GP</td><td>M</td><td>17</td><td>2</td><td>0</td><td>11</td><td>10</td><td>10</td></tr>
-                    </tbody>
-                </table>
+        <section class="section section-alt" aria-labelledby="data-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="data-heading">Sample Data Preview</h2>
+                <p>First 10 student records from the dataset.</p>
+                <div style="overflow-x: auto; margin-top: 1.5rem;">
+                    <table class="data-table" role="table" aria-label="Sample student data">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" role="columnheader">School</th>
+                                <th scope="col" role="columnheader">Sex</th>
+                                <th scope="col" role="columnheader">Age</th>
+                                <th scope="col" role="columnheader">Study Time</th>
+                                <th scope="col" role="columnheader">Failures</th>
+                                <th scope="col" role="columnheader">G1</th>
+                                <th scope="col" role="columnheader">G2</th>
+                                <th scope="col" role="columnheader">G3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr role="row"><td>GP</td><td>M</td><td>18</td><td>2</td><td>0</td><td>12</td><td>12</td><td>11</td></tr>
+                            <tr role="row"><td>GP</td><td>F</td><td>17</td><td>3</td><td>0</td><td>14</td><td>14</td><td>13</td></tr>
+                            <tr role="row"><td>MS</td><td>F</td><td>15</td><td>2</td><td>0</td><td>11</td><td>11</td><td>10</td></tr>
+                            <tr role="row"><td>GP</td><td>M</td><td>16</td><td>1</td><td>0</td><td>10</td><td>9</td><td>9</td></tr>
+                            <tr role="row"><td>GP</td><td>F</td><td>16</td><td>3</td><td>0</td><td>15</td><td>15</td><td>14</td></tr>
+                            <tr role="row"><td>MS</td><td>M</td><td>16</td><td>2</td><td>1</td><td>8</td><td>9</td><td>8</td></tr>
+                            <tr role="row"><td>GP</td><td>F</td><td>17</td><td>4</td><td>0</td><td>16</td><td>17</td><td>16</td></tr>
+                            <tr role="row"><td>GP</td><td>M</td><td>18</td><td>1</td><td>0</td><td>13</td><td>12</td><td>11</td></tr>
+                            <tr role="row"><td>MS</td><td>F</td><td>15</td><td>3</td><td>0</td><td>14</td><td>14</td><td>13</td></tr>
+                            <tr role="row"><td>GP</td><td>M</td><td>17</td><td>2</td><td>0</td><td>11</td><td>10</td><td>10</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
-        <!-- Navigation -->
-        <section style="text-align: center; margin-top: 2rem;">
-            <a href="predictor.html" class="btn">Try the Predictor →</a>
+        <!-- Navigation CTA -->
+        <section class="section" style="text-align: center;">
+            <a href="predictor.html" class="btn animate-on-scroll">Try the Predictor</a>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>🎓 Student Performance ML | Built with ❤️ using Machine Learning</p>
+    <footer class="footer" role="contentinfo">
+        <p>Student Performance ML | Built with Machine Learning</p>
     </footer>
 
     <!-- JavaScript -->

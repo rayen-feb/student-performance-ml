@@ -1,6 +1,6 @@
 /**
- * Student Performance ML - JavaScript ML Engine
- * Handles model loading, prediction, and visualization
+ * Student Performance AI - Apple-Style JavaScript
+ * Handles scroll animations, navigation, model loading, and visualization
  */
 
 // Global state
@@ -9,7 +9,135 @@ let encodersData = null;
 let scalerData = null;
 let metricsData = null;
 
-// API Functions
+// ============================================
+// NAVIGATION
+// ============================================
+function initNavigation() {
+    const nav = document.getElementById('navbar');
+    if (!nav) return;
+    
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        // Add/remove scrolled class for background change
+        if (currentScroll > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+        
+        lastScroll = currentScroll;
+    });
+}
+
+// ============================================
+// SCROLL ANIMATIONS
+// ============================================
+function initScrollAnimations() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // Handle staggered children
+                const children = entry.target.querySelectorAll('.animate-child');
+                children.forEach((child, index) => {
+                    setTimeout(() => {
+                        child.classList.add('visible');
+                    }, index * 100);
+                });
+                
+                // Trigger counter animation for KPI values
+                const counter = entry.target.querySelector('.kpi-value');
+                if (counter && !counter.classList.contains('counted')) {
+                    animateCounter(counter);
+                    counter.classList.add('counted');
+                }
+                
+                // Trigger progress bar animation
+                const progressFill = entry.target.querySelector('.progress-fill');
+                if (progressFill && !progressFill.classList.contains('animated')) {
+                    const width = progressFill.dataset.width;
+                    if (width) {
+                        setTimeout(() => {
+                            progressFill.style.width = width + '%';
+                        }, 300);
+                        progressFill.classList.add('animated');
+                    }
+                }
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all elements with animate-on-scroll class
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// ============================================
+// COUNTER ANIMATION
+// ============================================
+function animateCounter(element) {
+    const target = parseFloat(element.dataset.value);
+    if (isNaN(target)) return;
+    
+    const duration = 1500;
+    const start = performance.now();
+    const isPercentage = element.textContent.includes('%');
+    const isDecimal = target % 1 !== 0;
+    
+    function update(currentTime) {
+        const elapsed = currentTime - start;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function (ease-out cubic)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = target * easeOut;
+        
+        if (isDecimal) {
+            element.textContent = current.toFixed(2) + (isPercentage ? '%' : '');
+        } else {
+            element.textContent = Math.round(current).toLocaleString() + (isPercentage ? '%' : '');
+        }
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    
+    requestAnimationFrame(update);
+}
+
+// ============================================
+// SMOOTH SCROLL
+// ============================================
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// ============================================
+// API FUNCTIONS
+// ============================================
 async function loadModelArtifacts() {
     try {
         const [modelRes, encodersRes, scalerRes, metricsRes] = await Promise.all([
@@ -32,14 +160,15 @@ async function loadModelArtifacts() {
     }
 }
 
-// Linear Regression Prediction
+// ============================================
+// PREDICTION
+// ============================================
 function predict(inputValues) {
     if (!modelData || !scalerData) {
         console.error('Model not loaded');
         return null;
     }
     
-    // Build feature array in correct order
     let features = [];
     const featureNames = modelData.feature_names;
     
@@ -67,7 +196,7 @@ function predict(inputValues) {
         scaledFeatures.push(scaled);
     }
     
-    // Linear regression prediction: y = intercept + sum(coef_i * x_i)
+    // Linear regression prediction
     let prediction = modelData.intercept;
     for (let i = 0; i < scaledFeatures.length; i++) {
         prediction += modelData.coefficients[i] * scaledFeatures[i];
@@ -79,25 +208,27 @@ function predict(inputValues) {
     return Math.round(prediction * 100) / 100;
 }
 
-// Get performance classification
 function getPerformanceLevel(score) {
     if (score >= 15) {
-        return { level: 'Excellent', color: '#10B981', badge: 'badge-success' };
+        return { level: 'Excellent', color: '#34C759', badge: 'badge-success' };
     } else if (score >= 10) {
-        return { level: 'Pass', color: '#F59E0B', badge: 'badge-warning' };
+        return { level: 'Pass', color: '#FF9500', badge: 'badge-warning' };
     } else {
-        return { level: 'High Risk', color: '#EF4444', badge: 'badge-danger' };
+        return { level: 'High Risk', color: '#FF3B30', badge: 'badge-danger' };
     }
 }
 
-// Initialize dashboard metrics
+// ============================================
+// DASHBOARD
+// ============================================
 function initDashboard() {
     if (!metricsData) return;
     
     // Update dataset size
     const datasetEl = document.getElementById('dataset-size');
     if (datasetEl) {
-        datasetEl.textContent = metricsData.dataset_size;
+        datasetEl.dataset.value = metricsData.dataset_size;
+        datasetEl.textContent = '0';
     }
     
     // Update best model
@@ -109,14 +240,25 @@ function initDashboard() {
     // Update best R2
     const bestR2El = document.getElementById('best-r2');
     if (bestR2El) {
-        bestR2El.textContent = metricsData.best_r2;
+        bestR2El.dataset.value = metricsData.best_r2;
+        bestR2El.textContent = '0.00';
     }
     
-    // Render model benchmark chart
+    // Update prediction confidence
+    const confidenceEl = document.getElementById('prediction-confidence');
+    if (confidenceEl) {
+        const confidence = Math.round(metricsData.best_r2 * 100);
+        confidenceEl.dataset.value = confidence;
+        confidenceEl.textContent = '0%';
+    }
+    
+    // Render charts
     renderBenchmarkChart();
 }
 
-// Render model benchmark bar chart
+// ============================================
+// CHARTS
+// ============================================
 function renderBenchmarkChart() {
     const canvas = document.getElementById('benchmarkChart');
     if (!canvas || !metricsData) return;
@@ -127,101 +269,181 @@ function renderBenchmarkChart() {
     const r2Values = models.map(m => results[m].R2);
     const maxR2 = Math.max(...r2Values);
     
-    const chartWidth = canvas.width;
-    const chartHeight = canvas.height;
-    const barWidth = chartWidth / models.length - 20;
-    const barSpacing = 20;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    
+    const chartWidth = rect.width;
+    const chartHeight = rect.height;
+    const barWidth = (chartWidth / models.length) * 0.6;
+    const barSpacing = (chartWidth / models.length) * 0.4;
     
     // Clear canvas
     ctx.clearRect(0, 0, chartWidth, chartHeight);
     
-    // Draw bars
+    // Draw bars with animation
     models.forEach((model, i) => {
-        const barHeight = (results[model].R2 / maxR2) * (chartHeight - 60);
-        const x = i * (barWidth + barSpacing) + 15;
-        const y = chartHeight - 30 - barHeight;
+        const targetHeight = (results[model].R2 / maxR2) * (chartHeight - 80);
+        const x = i * (barWidth + barSpacing) + barSpacing / 2;
+        const y = chartHeight - 50;
         
-        // Bar gradient
-        const gradient = ctx.createLinearGradient(x, y, x, chartHeight - 30);
-        gradient.addColorStop(0, '#2563EB');
-        gradient.addColorStop(1, '#3730A3');
+        // Animate bar height
+        let currentHeight = 0;
+        const startTime = performance.now();
+        const duration = 1000;
+        const delay = i * 150;
         
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, 6);
-        ctx.fill();
+        function animateBar(currentTime) {
+            const elapsed = currentTime - startTime - delay;
+            if (elapsed < 0) {
+                requestAnimationFrame(animateBar);
+                return;
+            }
+            
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            currentHeight = targetHeight * easeOut;
+            
+            // Clear only this bar area
+            ctx.clearRect(x - 2, 0, barWidth + 4, chartHeight - 50);
+            
+            // Bar gradient
+            const gradient = ctx.createLinearGradient(x, y - currentHeight, x, y);
+            gradient.addColorStop(0, '#0071E3');
+            gradient.addColorStop(1, '#5856D6');
+            
+            // Draw bar with rounded top
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            const radius = 8;
+            ctx.moveTo(x + radius, y - currentHeight);
+            ctx.lineTo(x + barWidth - radius, y - currentHeight);
+            ctx.quadraticCurveTo(x + barWidth, y - currentHeight, x + barWidth, y - currentHeight + radius);
+            ctx.lineTo(x + barWidth, y);
+            ctx.lineTo(x, y);
+            ctx.lineTo(x, y - currentHeight + radius);
+            ctx.quadraticCurveTo(x, y - currentHeight, x + radius, y - currentHeight);
+            ctx.closePath();
+            ctx.fill();
+            
+            // R2 value on top
+            if (progress > 0.5) {
+                ctx.fillStyle = '#0071E3';
+                ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                const valueOpacity = (progress - 0.5) * 2;
+                ctx.globalAlpha = valueOpacity;
+                ctx.fillText(results[model].R2.toFixed(2), x + barWidth / 2, y - currentHeight - 10);
+                ctx.globalAlpha = 1;
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateBar);
+            }
+        }
+        
+        requestAnimationFrame(animateBar);
         
         // Model name
-        ctx.fillStyle = '#374151';
-        ctx.font = '12px Inter, sans-serif';
+        ctx.fillStyle = '#86868B';
+        ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
-        const displayName = model.length > 12 ? model.substring(0, 10) + '..' : model;
-        ctx.fillText(displayName, x + barWidth/2, chartHeight - 10);
-        
-        // R2 value
-        ctx.fillStyle = '#2563EB';
-        ctx.font = 'bold 11px Inter, sans-serif';
-        ctx.fillText(results[model].R2.toFixed(2), x + barWidth/2, y - 5);
+        const displayName = model.length > 14 ? model.substring(0, 12) + '..' : model;
+        ctx.fillText(displayName, x + barWidth / 2, chartHeight - 20);
     });
 }
 
-// Render distribution chart
 function renderDistributionChart() {
     const canvas = document.getElementById('distributionChart');
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
-    const chartWidth = canvas.width;
-    const chartHeight = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
     
-    // Sample grade distribution (simulated from real data patterns)
+    const chartWidth = rect.width;
+    const chartHeight = rect.height;
+    
     const grades = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     const counts = [1,2,3,5,8,12,15,20,35,40,85,95,120,110,95,85,70,45,30,15,8];
     const total = counts.reduce((a, b) => a + b, 0);
     
-    const barWidth = chartWidth / grades.length - 2;
+    const barWidth = (chartWidth / grades.length) - 2;
     
     // Clear canvas
     ctx.clearRect(0, 0, chartWidth, chartHeight);
     
-    // Draw bars
+    // Draw bars with animation
     grades.forEach((grade, i) => {
-        const barHeight = (counts[i] / total) * (chartHeight - 40);
+        const targetHeight = (counts[i] / total) * (chartHeight - 50);
         const x = i * (barWidth + 2) + 2;
-        const y = chartHeight - 30 - barHeight;
+        const y = chartHeight - 35;
         
-        // Color based on grade
         let color;
-        if (grade >= 15) color = '#10B981';
-        else if (grade >= 10) color = '#F59E0B';
-        else color = '#EF4444';
+        if (grade >= 15) color = '#34C759';
+        else if (grade >= 10) color = '#FF9500';
+        else color = '#FF3B30';
         
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, 3);
-        ctx.fill();
+        // Animate
+        let currentHeight = 0;
+        const startTime = performance.now();
+        const duration = 800;
+        const delay = i * 30;
+        
+        function animateBar(currentTime) {
+            const elapsed = currentTime - startTime - delay;
+            if (elapsed < 0) {
+                requestAnimationFrame(animateBar);
+                return;
+            }
+            
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            currentHeight = targetHeight * easeOut;
+            
+            ctx.clearRect(x - 1, 0, barWidth + 2, chartHeight - 35);
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.roundRect(x, y - currentHeight, barWidth, currentHeight, 4);
+            ctx.fill();
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateBar);
+            }
+        }
+        
+        requestAnimationFrame(animateBar);
     });
     
     // X-axis labels
-    ctx.fillStyle = '#6B7280';
-    ctx.font = '10px Inter, sans-serif';
+    ctx.fillStyle = '#86868B';
+    ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
     ctx.textAlign = 'center';
     for (let i = 0; i <= 20; i += 5) {
-        const x = (i / 20) * chartWidth;
+        const x = (i / 20) * (chartWidth - 20) + 10;
         ctx.fillText(i.toString(), x, chartHeight - 8);
     }
 }
 
-// Render correlation matrix
 function renderCorrelationChart() {
     const canvas = document.getElementById('correlationChart');
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
-    const chartWidth = canvas.width;
-    const chartHeight = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
     
-    // Key correlations for visualization
+    const chartWidth = rect.width;
+    const chartHeight = rect.height;
+    
     const correlations = {
         'G1-G2': 0.85,
         'G2-G3': 0.92,
@@ -240,41 +462,84 @@ function renderCorrelationChart() {
     // Clear canvas
     ctx.clearRect(0, 0, chartWidth, chartHeight);
     
-    // Draw bars
+    // Draw bars with animation
     keys.forEach((key, i) => {
         const corr = correlations[key];
-        const barWidth = (Math.abs(corr) / maxCorr) * (chartWidth - 150);
+        const targetWidth = (Math.abs(corr) / maxCorr) * (chartWidth - 150);
         const x = 100;
         const y = i * itemHeight + 20;
         
         // Label
-        ctx.fillStyle = '#374151';
-        ctx.font = '11px Inter, sans-serif';
+        ctx.fillStyle = '#1D1D1F';
+        ctx.font = '600 12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(key, 10, y + 12);
+        ctx.fillText(key, 10, y + 14);
         
         // Bar background
-        ctx.fillStyle = '#E5E7EB';
-        ctx.fillRect(x, y, chartWidth - 110, 14);
+        ctx.fillStyle = '#F2F2F7';
+        ctx.beginPath();
+        ctx.roundRect(x, y, chartWidth - 110, 16, 8);
+        ctx.fill();
         
-        // Bar
-        const color = corr > 0 ? '#10B981' : '#EF4444';
-        ctx.fillStyle = color;
-        ctx.fillRect(x, y, barWidth, 14);
+        // Animated bar
+        let currentWidth = 0;
+        const startTime = performance.now();
+        const duration = 1000;
+        const delay = i * 100;
         
-        // Value
-        ctx.fillStyle = '#374151';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText(corr.toFixed(2), chartWidth - 10, y + 12);
+        function animateBar(currentTime) {
+            const elapsed = currentTime - startTime - delay;
+            if (elapsed < 0) {
+                requestAnimationFrame(animateBar);
+                return;
+            }
+            
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            currentWidth = targetWidth * easeOut;
+            
+            // Clear bar area
+            ctx.clearRect(x, y, chartWidth - 110, 16);
+            
+            // Redraw background
+            ctx.fillStyle = '#F2F2F7';
+            ctx.beginPath();
+            ctx.roundRect(x, y, chartWidth - 110, 16, 8);
+            ctx.fill();
+            
+            // Draw bar
+            const color = corr > 0 ? '#34C759' : '#FF3B30';
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.roundRect(x, y, currentWidth, 16, 8);
+            ctx.fill();
+            
+            // Value
+            if (progress > 0.7) {
+                ctx.fillStyle = '#1D1D1F';
+                ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'right';
+                const valueOpacity = (progress - 0.7) * 3.33;
+                ctx.globalAlpha = Math.min(valueOpacity, 1);
+                ctx.fillText(corr.toFixed(2), chartWidth - 10, y + 13);
+                ctx.globalAlpha = 1;
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateBar);
+            }
+        }
+        
+        requestAnimationFrame(animateBar);
     });
 }
 
-// Handle prediction form submission
+// ============================================
+// PREDICTION FORM
+// ============================================
 async function handlePrediction(event) {
     event.preventDefault();
     
-    // Load artifacts if not loaded
     if (!modelData) {
         const loaded = await loadModelArtifacts();
         if (!loaded) {
@@ -283,7 +548,6 @@ async function handlePrediction(event) {
         }
     }
     
-    // Collect form data
     const form = event.target;
     const inputValues = {};
     
@@ -295,7 +559,6 @@ async function handlePrediction(event) {
         }
     }
     
-    // Make prediction
     const prediction = predict(inputValues);
     
     if (prediction !== null) {
@@ -305,7 +568,6 @@ async function handlePrediction(event) {
     }
 }
 
-// Show prediction result
 function showPredictionResult(score) {
     const resultContainer = document.getElementById('prediction-result');
     if (!resultContainer) return;
@@ -313,73 +575,70 @@ function showPredictionResult(score) {
     const performance = getPerformanceLevel(score);
     const progressWidth = (score / 20) * 100;
     
-    resultContainer.innerHTML = `
-        <div class="prediction-result" style="background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);">
-            <div class="prediction-score">${score.toFixed(2)} / 20</div>
-            <p>Predicted Final Grade</p>
-            <div class="progress-bar">
-                <div class="progress-fill" style="--progress-width: ${progressWidth}%;"></div>
-            </div>
-            <p class="prediction-level" style="margin-top: 0.5rem;">
-                <span class="badge ${performance.badge}">${performance.level}</span>
-            </p>
-        </div>
-    `;
+    resultContainer.innerHTML = `\n        <div class="prediction-result" style="background: linear-gradient(135deg, ${performance.color}, ${performance.color}dd);">\n            <div class="prediction-score">${score.toFixed(2)}</div>\n            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem;">Predicted Final Grade (out of 20)</p>\n            <div class="progress-container">\n                <div class="progress-label">\n                    <span>Performance</span>\n                    <span>${score.toFixed(1)}/20</span>\n                </div>\n                <div class="progress-track">\n                    <div class="progress-fill" style="width: 0%;" data-width="${progressWidth}"></div>\n                </div>\n            </div>\n            <p style="margin-top: 1.5rem;">\n                <span class="badge ${performance.badge}">${performance.level}</span>\n            </p>\n        </div>\n    `;
     
-    // Show balloons for excellent score
-    if (score >= 15) {
-        showBalloons();
-    }
+    // Animate progress bar
+    setTimeout(() => {
+        const fill = resultContainer.querySelector('.progress-fill');
+        if (fill) {
+            fill.style.width = progressWidth + '%';
+        }
+    }, 100);
 }
 
-// Simple balloon animation
-function showBalloons() {
-    for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-            const balloon = document.createElement('div');
-            balloon.innerHTML = '🎈';
-            balloon.style.cssText = `
-                position: fixed;
-                left: ${Math.random() * 80 + 10}%;
-                bottom: -50px;
-                font-size: 2rem;
-                animation: floatUp 3s ease-out forwards;
-                z-index: 9999;
-            `;
-            document.body.appendChild(balloon);
-            
-            setTimeout(() => balloon.remove(), 3000);
-        }, i * 200);
-    }
+// ============================================
+// INSIGHTS ANIMATION
+// ============================================
+function initInsightsAnimation() {
+    const lists = document.querySelectorAll('.insights-list');
+    
+    lists.forEach(list => {
+        const items = list.querySelectorAll('li');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 150);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        observer.observe(list);
+    });
 }
 
-// Add CSS animation for balloons
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes floatUp {
-        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-        100% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-
-// Auto-initialize on page load
+// ============================================
+// INITIALIZATION
+// ============================================
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('Initializing Student Performance ML...');
+    console.log('Initializing Student Performance AI...');
     
+    // Initialize UI
+    initNavigation();
+    initScrollAnimations();
+    initSmoothScroll();
+    initInsightsAnimation();
+    
+    // Load model data
     const loaded = await loadModelArtifacts();
     if (loaded) {
         initDashboard();
         
         // Render charts if canvases exist
         if (document.getElementById('benchmarkChart')) {
-            renderBenchmarkChart();
+            // Delay slightly to ensure layout is complete
+            setTimeout(renderBenchmarkChart, 100);
         }
         if (document.getElementById('distributionChart')) {
-            renderDistributionChart();
+            setTimeout(renderDistributionChart, 100);
         }
         if (document.getElementById('correlationChart')) {
-            renderCorrelationChart();
+            setTimeout(renderCorrelationChart, 100);
         }
     }
     
@@ -390,6 +649,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     console.log('Initialization complete');
+});
+
+// Handle window resize for charts
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        if (document.getElementById('benchmarkChart')) renderBenchmarkChart();
+        if (document.getElementById('distributionChart')) renderDistributionChart();
+        if (document.getElementById('correlationChart')) renderCorrelationChart();
+    }, 250);
 });
 
 // Export functions for external use

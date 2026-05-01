@@ -3,230 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Training and Support - Learn how the Student Performance AI model works">
     <title>Student Performance AI - Support</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230071E3'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold'>SP</text></svg>">
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <div class="brand">
-            <div class="logo">SP</div>
-            <div>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-brand" aria-label="Student Performance AI Home">
+            <div class="nav-logo">SP</div>
+            <div class="nav-brand-text">
                 <h1>Student Performance AI</h1>
-                <p>ML-powered grade prediction system</p>
+                <p>ML-powered grade prediction</p>
             </div>
-        </div>
+        </a>
         <div class="nav-links">
             <a href="index.html">Dashboard</a>
             <a href="analytics.html">Analytics</a>
             <a href="predictor.html">Predictor</a>
-            <a href="support.html" class="active">Support</a>
+            <a href="support.html" class="active" aria-current="page">Support</a>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <h1>Training and Support</h1>
+            <p>Learn how the model is trained, validated, and deployed with full transparency.</p>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="main-layout">
-        <!-- Hero -->
-        <section class="hero">
-            <h1>🛠️ Training & Support</h1>
-            <p>Learn how the model is trained, validated, and deployed with transparency.</p>
-        </section>
-
         <!-- Feature Engineering -->
-        <section class="card">
-            <h2>🔧 Feature Engineering Lifecycle</h2>
-            <p>From raw student records to normalized, encoded signals that power prediction stability.</p>
-            
-            <div style="margin-top: 1.5rem;">
-                <h3 style="font-size: 1rem; color: #374151; margin-bottom: 0.5rem;">Data Preparation Checklist</h3>
-                <ul style="margin-left: 1.5rem; color: #6B7280;">
-                    <li>Validate missing values and outliers</li>
-                    <li>Encode categorical indicators consistently</li>
-                    <li>Scale numeric inputs for regression stability</li>
-                    <li>Split data 80/20 for training/testing</li>
-                </ul>
-            </div>
-            
-            <div style="margin-top: 1.5rem;">
-                <h3 style="font-size: 1rem; color: #374151; margin-bottom: 0.5rem;">Data Sources</h3>
-                <ul style="margin-left: 1.5rem; color: #6B7280;">
-                    <li>UCI Student Performance Dataset</li>
-                    <li>Math course (student-mat.csv): 395 records</li>
-                    <li>Portuguese course (student-por.csv): 649 records</li>
-                    <li>Combined: 1,044 student records</li>
-                </ul>
+        <section class="section" aria-labelledby="engineering-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="engineering-heading">Feature Engineering Lifecycle</h2>
+                <p>From raw student records to normalized, encoded signals that power prediction stability.</p>
+                
+                <div style="margin-top: 2rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Data Preparation Checklist</h3>
+                    <ul style="margin-left: 1.5rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Validate missing values and outliers</li>
+                        <li>Encode categorical indicators consistently</li>
+                        <li>Scale numeric inputs for regression stability</li>
+                        <li>Split data 80/20 for training and testing</li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem;">Data Sources</h3>
+                    <ul style="margin-left: 1.5rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>UCI Student Performance Dataset</li>
+                        <li>Math course (student-mat.csv): 395 records</li>
+                        <li>Portuguese course (student-por.csv): 649 records</li>
+                        <li>Combined: 1,044 student records</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- Model Training -->
-        <section class="card">
-            <h2>🤖 Model Training</h2>
-            <p>Automatic training and comparison of multiple regression models.</p>
-            
-            <table class="data-table" style="margin-top: 1rem;">
-                <thead>
-                    <tr>
-                        <th>Model</th>
-                        <th>MAE</th>
-                        <th>RMSE</th>
-                        <th>R² Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Linear Regression</td>
-                        <td>1.82</td>
-                        <td>2.35</td>
-                        <td>0.80</td>
-                    </tr>
-                    <tr>
-                        <td>Random Forest</td>
-                        <td>1.65</td>
-                        <td>2.18</td>
-                        <td>0.83</td>
-                    </tr>
-                    <tr>
-                        <td>Gradient Boosting</td>
-                        <td>1.58</td>
-                        <td>2.05</td>
-                        <td>0.85</td>
-                    </tr>
-                    <tr>
-                        <td>MLP Regressor</td>
-                        <td>1.72</td>
-                        <td>2.28</td>
-                        <td>0.81</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <p style="margin-top: 1rem; color: #6B7280;">
-                <strong>Best Model:</strong> Gradient Boosting (R² = 0.85)<br>
-                <strong>Reason:</strong> Highest R² score, lowest MAE and RMSE
-            </p>
+        <section class="section section-alt" aria-labelledby="training-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="training-heading">Model Training</h2>
+                <p>Automatic training and comparison of multiple regression models.</p>
+                
+                <div style="overflow-x: auto; margin-top: 1.5rem;">
+                    <table class="data-table" role="table" aria-label="Model performance comparison">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" role="columnheader">Model</th>
+                                <th scope="col" role="columnheader">MAE</th>
+                                <th scope="col" role="columnheader">RMSE</th>
+                                <th scope="col" role="columnheader">R-squared Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr role="row">
+                                <td>Linear Regression</td>
+                                <td>1.82</td>
+                                <td>2.35</td>
+                                <td>0.80</td>
+                            </tr>
+                            <tr role="row">
+                                <td>Random Forest</td>
+                                <td>1.65</td>
+                                <td>2.18</td>
+                                <td>0.83</td>
+                            </tr>
+                            <tr role="row" style="background: rgba(52, 199, 89, 0.05);">
+                                <td><strong>Gradient Boosting</strong> <span class="badge badge-success">Best</span></td>
+                                <td><strong>1.58</strong></td>
+                                <td><strong>2.05</strong></td>
+                                <td><strong>0.85</strong></td>
+                            </tr>
+                            <tr role="row">
+                                <td>MLP Regressor</td>
+                                <td>1.72</td>
+                                <td>2.28</td>
+                                <td>0.81</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: var(--apple-gray); border-radius: 16px;">
+                    <p style="color: var(--apple-text); margin-bottom: 0.5rem;"><strong>Best Model:</strong> Gradient Boosting (R-squared = 0.85)</p>
+                    <p style="color: var(--apple-text-secondary);">Selected for highest R-squared score and lowest MAE and RMSE values.</p>
+                </div>
+            </div>
         </section>
 
         <!-- Deployment -->
-        <section class="card">
-            <h2>🚀 Deployment Readiness</h2>
-            
-            <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                <li>Model is cached for fast inference</li>
-                <li>Sidebar status shows live performance metrics</li>
-                <li>Support guide helps operational users interpret output</li>
-                <li>API endpoints available for integration</li>
-            </ul>
+        <section class="section" aria-labelledby="deployment-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="deployment-heading">Deployment Readiness</h2>
+                <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                    <li>Model is cached for fast inference</li>
+                    <li>Sidebar status shows live performance metrics</li>
+                    <li>Support guide helps operational users interpret output</li>
+                    <li>API endpoints available for integration</li>
+                </ul>
+            </div>
         </section>
 
-        <!-- Support Guide -->
-        <section class="feature-grid">
-            <div class="card">
-                <h2>💡 Best Practices</h2>
-                <p>Optimize your predictions with these quick tips:</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li>Use the latest student cohort data</li>
-                    <li>Keep attendance indicators updated</li>
-                    <li>Review model benchmarks monthly</li>
-                    <li>Adjust study-time assumptions</li>
-                </ul>
+        <!-- Support Grid -->
+        <section class="section section-alt" aria-labelledby="support-heading">
+            <div class="section-header animate-on-scroll">
+                <h2 id="support-heading">Support Resources</h2>
+                <p>Everything you need to get the most out of the platform.</p>
             </div>
-            
-            <div class="card">
-                <h2>🔍 Troubleshooting</h2>
-                <p>Common issues and solutions:</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li><strong>Low accuracy:</strong> Update training data</li>
-                    <li><strong>Missing predictions:</strong> Check required fields</li>
-                    <li><strong>Error loading:</strong> Refresh the page</li>
-                </ul>
-            </div>
-            
-            <div class="card">
-                <h2>📞 Contact</h2>
-                <p>For additional support:</p>
-                <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #6B7280;">
-                    <li>Check GitHub Issues</li>
-                    <li>Review documentation</li>
-                    <li>Email: support@example.com</li>
-                </ul>
+            <div class="feature-grid">
+                <article class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h2>Best Practices</h2>
+                    <p>Optimize your predictions with these quick tips:</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Use the latest student cohort data</li>
+                        <li>Keep attendance indicators updated</li>
+                        <li>Review model benchmarks monthly</li>
+                        <li>Adjust study-time assumptions</li>
+                    </ul>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-1">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #FF9500, #FFB340);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <h2>Troubleshooting</h2>
+                    <p>Common issues and solutions:</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li><strong>Low accuracy:</strong> Update training data</li>
+                        <li><strong>Missing predictions:</strong> Check required fields</li>
+                        <li><strong>Error loading:</strong> Refresh the page</li>
+                    </ul>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-2">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #5856D6, #AF52DE);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h2>Contact</h2>
+                    <p>For additional support:</p>
+                    <ul style="margin-top: 1rem; color: var(--apple-text-secondary); line-height: 1.8;">
+                        <li>Check GitHub Issues</li>
+                        <li>Review documentation</li>
+                        <li>Email: support@example.com</li>
+                    </ul>
+                </article>
             </div>
         </section>
 
         <!-- Dataset Attributes -->
-        <section class="card">
-            <h2>📋 Dataset Attributes</h2>
-            <p>Complete list of features used in the model.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Demographic</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>school - School name</li>
-                        <li>sex - Student sex</li>
-                        <li>age - Student age</li>
-                        <li>address - Home address type</li>
-                        <li>famsize - Family size</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Family</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>Pstatus - Parent status</li>
-                        <li>Medu - Mother's education</li>
-                        <li>Fedu - Father's education</li>
-                        <li>Mjob - Mother's job</li>
-                        <li>Fjob - Father's job</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Academic</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>reason - Reason for school</li>
-                        <li>guardian - Student guardian</li>
-                        <li>traveltime - Travel time</li>
-                        <li>studytime - Study time</li>
-                        <li>failures - Past failures</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Support</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>schoolsup - School support</li>
-                        <li>famsup - Family support</li>
-                        <li>paid - Extra paid classes</li>
-                        <li>activities - Activities</li>
-                        <li>higher - Wants higher ed</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Lifestyle</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>internet - Internet access</li>
-                        <li>romantic - Romantic relationship</li>
-                        <li>famrel - Family relationship</li>
-                        <li>freetime - Free time</li>
-                        <li>goout - Going out</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="font-size: 0.9rem; color: #374151;">Health & Grades</h3>
-                    <ul style="margin-left: 1rem; color: #6B7280; font-size: 0.85rem;">
-                        <li>Dalc - Workday alcohol</li>
-                        <li>Walc - Weekend alcohol</li>
-                        <li>health - Health status</li>
-                        <li>absences - School absences</li>
-                        <li>G1, G2, G3 - Grades</li>
-                    </ul>
+        <section class="section" aria-labelledby="attributes-heading">
+            <div class="card animate-on-scroll">
+                <h2 id="attributes-heading">Dataset Attributes</h2>
+                <p>Complete list of features used in the model.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Demographic</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>school - School name</li>
+                            <li>sex - Student sex</li>
+                            <li>age - Student age</li>
+                            <li>address - Home address type</li>
+                            <li>famsize - Family size</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Family</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>Pstatus - Parent status</li>
+                            <li>Medu - Mother's education</li>
+                            <li>Fedu - Father's education</li>
+                            <li>Mjob - Mother's job</li>
+                            <li>Fjob - Father's job</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Academic</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>reason - Reason for school</li>
+                            <li>guardian - Student guardian</li>
+                            <li>traveltime - Travel time</li>
+                            <li>studytime - Study time</li>
+                            <li>failures - Past failures</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Support</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>schoolsup - School support</li>
+                            <li>famsup - Family support</li>
+                            <li>paid - Extra paid classes</li>
+                            <li>activities - Activities</li>
+                            <li>higher - Wants higher ed</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Lifestyle</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>internet - Internet access</li>
+                            <li>romantic - Romantic relationship</li>
+                            <li>famrel - Family relationship</li>
+                            <li>freetime - Free time</li>
+                            <li>goout - Going out</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Health and Grades</h3>
+                        <ul style="color: var(--apple-text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                            <li>Dalc - Workday alcohol</li>
+                            <li>Walc - Weekend alcohol</li>
+                            <li>health - Health status</li>
+                            <li>absences - School absences</li>
+                            <li>G1, G2, G3 - Grades</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>🎓 Student Performance ML | Built with ❤️ using Machine Learning</p>
-        <p>Dataset: <a href="https://archive.ics.uci.edu/dataset/203/student+performance">UCI Student Performance</a></p>
+    <footer class="footer" role="contentinfo">
+        <p>Student Performance ML | Built with Machine Learning</p>
+        <p>Dataset: <a href="https://archive.ics.uci.edu/dataset/203/student+performance" target="_blank" rel="noopener noreferrer">UCI Student Performance</a></p>
     </footer>
 
     <!-- JavaScript -->

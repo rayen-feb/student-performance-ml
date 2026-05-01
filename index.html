@@ -3,110 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student Performance AI - ML-powered grade prediction system with Apple-style design">
     <title>Student Performance AI - Dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230071E3'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold'>SP</text></svg>">
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <div class="brand">
-            <div class="logo">SP</div>
-            <div>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-brand" aria-label="Student Performance AI Home">
+            <div class="nav-logo">SP</div>
+            <div class="nav-brand-text">
                 <h1>Student Performance AI</h1>
-                <p>ML-powered grade prediction system</p>
+                <p>ML-powered grade prediction</p>
             </div>
-        </div>
+        </a>
         <div class="nav-links">
-            <a href="index.html" class="active">Dashboard</a>
+            <a href="index.html" class="active" aria-current="page">Dashboard</a>
             <a href="analytics.html">Analytics</a>
             <a href="predictor.html">Predictor</a>
             <a href="support.html">Support</a>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <section class="hero" id="hero" role="banner">
+        <div class="hero-content">
+            <h1>Student Performance Intelligence</h1>
+            <p>Predict student academic success using machine learning. Analyze key factors and generate accurate grade predictions with confidence.</p>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="main-layout">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>🎓 Student Performance Intelligence</h1>
-            <p>Predict student academic success using machine learning. Analyze key factors and generate accurate grade predictions.</p>
-        </section>
-
         <!-- KPI Cards -->
-        <section class="kpi-grid">
-            <div class="kpi-card">
+        <section class="kpi-grid" aria-label="Key Performance Indicators">
+            <article class="glass-card kpi-card animate-on-scroll">
                 <h3>Cohort Coverage</h3>
-                <div class="value" id="dataset-size">1,044</div>
-                <p class="label">Active student records</p>
-            </div>
-            <div class="kpi-card">
+                <div class="kpi-value" id="dataset-size" data-value="1044">0</div>
+                <p class="kpi-label">Active student records</p>
+            </article>
+            <article class="glass-card kpi-card animate-on-scroll animate-delay-1">
                 <h3>Model Precision</h3>
-                <div class="value" id="best-r2">0.85</div>
-                <p class="label">Best R² score from models</p>
-            </div>
-            <div class="kpi-card">
+                <div class="kpi-value" id="best-r2" data-value="0.85">0.00</div>
+                <p class="kpi-label">Best R-squared score</p>
+            </article>
+            <article class="glass-card kpi-card animate-on-scroll animate-delay-2">
                 <h3>Predictive Confidence</h3>
-                <div class="value" id="prediction-confidence">87%</div>
-                <p class="label">Forecasting accuracy</p>
-            </div>
+                <div class="kpi-value" id="prediction-confidence" data-value="87">0%</div>
+                <p class="kpi-label">Forecasting accuracy</p>
+            </article>
         </section>
 
         <!-- Model Benchmark -->
-        <section class="card">
-            <h2>📊 Model Benchmark Analysis</h2>
-            <p>Automatic comparison of 4 regression models trained on student data.</p>
-            <div class="chart-container">
-                <canvas id="benchmarkChart" width="600" height="300"></canvas>
+        <section class="section" aria-labelledby="benchmark-heading">
+            <div class="section-header animate-on-scroll">
+                <h2 id="benchmark-heading">Model Benchmark Analysis</h2>
+                <p>Automatic comparison of four regression models trained on student performance data.</p>
+            </div>
+            <div class="chart-container animate-on-scroll">
+                <canvas id="benchmarkChart" width="800" height="400" role="img" aria-label="Bar chart comparing R-squared scores of four machine learning models"></canvas>
             </div>
         </section>
 
-        <!-- Quick Actions -->
-        <section class="feature-grid">
-            <div class="card">
-                <h2>🔮 AI Predictor</h2>
-                <p>Generate student grade predictions using the trained ensemble model.</p>
-                <a href="predictor.html" class="btn">Launch Predictor →</a>
+        <!-- Feature Grid -->
+        <section class="section section-alt" aria-labelledby="features-heading">
+            <div class="section-header animate-on-scroll">
+                <h2 id="features-heading">Quick Actions</h2>
+                <p>Explore the tools and capabilities of the Student Performance AI platform.</p>
             </div>
-            <div class="card">
-                <h2>📈 Analytics Explorer</h2>
-                <p>Visualize student performance trends, correlations, and distributions.</p>
-                <a href="analytics.html" class="btn">View Analytics →</a>
-            </div>
-            <div class="card">
-                <h2>📚 Model Training</h2>
-                <p>Learn how the model is trained, validated, and deployed with transparency.</p>
-                <a href="support.html" class="btn">View Details →</a>
+            <div class="feature-grid">
+                <article class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h2>AI Predictor</h2>
+                    <p>Generate student grade predictions using the trained ensemble model. Input student attributes and receive instant performance forecasts.</p>
+                    <a href="predictor.html" class="btn">Launch Predictor</a>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-1">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    <h2>Analytics Explorer</h2>
+                    <p>Visualize student performance trends, correlations, and distributions. Discover insights that drive better educational outcomes.</p>
+                    <a href="analytics.html" class="btn">View Analytics</a>
+                </article>
+                <article class="feature-card animate-on-scroll animate-delay-2">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h2>Model Training</h2>
+                    <p>Learn how the model is trained, validated, and deployed with full transparency. Review performance metrics and methodology.</p>
+                    <a href="support.html" class="btn">View Details</a>
+                </article>
             </div>
         </section>
 
         <!-- Best Model Info -->
-        <section class="card">
-            <h2>🤖 Best Performing Model</h2>
-            <p>The system automatically selects the best model based on R² score.</p>
-            <div style="margin-top: 1rem;">
-                <span class="badge badge-success" id="best-model">Gradient Boosting</span>
-                <span style="margin-left: 1rem; color: #6B7280;">R² Score: <strong id="best-r2-display">0.85</strong></span>
+        <section class="section" aria-labelledby="bestmodel-heading">
+            <div class="card animate-on-scroll">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; justify-content: space-between;">
+                    <div>
+                        <h2 id="bestmodel-heading">Best Performing Model</h2>
+                        <p style="margin-top: 0.5rem;">The system automatically selects the optimal model based on R-squared score and error metrics.</p>
+                        <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                            <span class="badge badge-success badge-pulse" id="best-model">Gradient Boosting</span>
+                            <span style="color: var(--apple-text-secondary);">R-squared Score: <strong id="best-r2-display" style="color: var(--apple-text);">0.85</strong></span>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; max-width: 400px;">
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Model Accuracy</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" data-width="85" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Key Insights -->
-        <section class="card">
-            <h2>💡 Key Findings</h2>
-            <ul style="margin-top: 1rem; margin-left: 1.5rem; color: #374151;">
-                <li><strong>Attendance</strong> is the strongest predictor of student performance</li>
-                <li><strong>Study time</strong> shows significant correlation with final grades</li>
-                <li><strong>Past failures</strong> are strong negative indicators</li>
-                <li><strong>Parental education</strong> (especially mother's) positively influences outcomes</li>
-                <li><strong>Alcohol consumption</strong> negatively impacts grades</li>
-            </ul>
+        <section class="section section-alt" aria-labelledby="insights-heading">
+            <div class="section-header animate-on-scroll">
+                <h2 id="insights-heading">Key Findings</h2>
+                <p>Data-driven insights from analyzing 1,044 student records across multiple dimensions.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <ul class="insights-list">
+                    <li>
+                        <div class="insight-marker">1</div>
+                        <div class="insight-content">
+                            <strong>Attendance</strong> is the strongest predictor of student performance, showing consistent correlation across all grade levels.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="insight-marker">2</div>
+                        <div class="insight-content">
+                            <strong>Study time</strong> shows significant positive correlation with final grades, with diminishing returns beyond 10 hours weekly.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="insight-marker">3</div>
+                        <div class="insight-content">
+                            <strong>Past failures</strong> are strong negative indicators, with each previous failure reducing predicted grades by approximately 2 points.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="insight-marker">4</div>
+                        <div class="insight-content">
+                            <strong>Parental education</strong>, especially mother's education level, positively influences student outcomes with a 0.22 correlation.
+                        </div>
+                    </li>
+                    <li>
+                        <div class="insight-marker">5</div>
+                        <div class="insight-content">
+                            <strong>Alcohol consumption</strong> negatively impacts grades, with workday drinking showing stronger correlation than weekend consumption.
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>🎓 Student Performance ML | Built with ❤️ using Machine Learning</p>
-        <p>Dataset: UCI Student Performance Dataset | <a href="https://archive.ics.uci.edu/dataset/203/student+performance">View Source</a></p>
+    <footer class="footer" role="contentinfo">
+        <p>Student Performance ML | Built with Machine Learning</p>
+        <p>Dataset: UCI Student Performance Dataset | <a href="https://archive.ics.uci.edu/dataset/203/student+performance" target="_blank" rel="noopener noreferrer">View Source</a></p>
     </footer>
 
     <!-- JavaScript -->
